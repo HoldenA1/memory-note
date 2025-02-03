@@ -1,0 +1,94 @@
+:root {
+  --accent-color: rgb(80, 108, 247);
+  --icon-height: 30px;
+
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form * {
+  margin: 0 0 2em;
+}
+
+button {
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  color: white;
+  padding: 1em;
+}
+
+button:hover {
+  filter: brightness(95%);
+}
+
+.notification {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  border-radius: 0.5em;
+  text-align: center;
+  padding: 1em;
+}
+
+output {
+  text-align: center;
+}
+
+.fail {
+  background-color: rgb(238, 191, 191);
+  border: 1px solid rgb(141, 65, 65);
+}
+
+.success {
+  background-color: rgb(191, 238, 191);
+  border: 1px solid rgb(65, 141, 65);
+}
+
+.correct {
+  background-color: rgb(191, 238, 191);
+}
+
+.incorrect {
+  background-color: rgb(238, 191, 191);
+}
+
+label {
+  margin: 0 0 0.5em;
+}
+
+input {
+  border: none;
+  padding: 1em;
+  background-color: rgb(230, 230, 230);
+  text-align: center;
+}
+
+#stats {
+  float: right;
+  display: flex;
+}
+
+statistic-box {
+  padding: 0 0.5em;
+  height: var(--icon-height);
+  line-height: var(--icon-height);
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  height: var(--icon-height);
+}
+
+#cards {
+  display: flex;
+}

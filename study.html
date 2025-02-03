@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Study | Omoidasu Noto</title>
+
+  <link rel="stylesheet" href="./styles/main.css">
+  <script type="module" src="./js/study.js"></script>
+</head>
+
+<body>
+<header>
+  <nav>
+    <a href="./dashboard.html">
+      <img class="icon" src="./assets/home_icon.svg" alt="Icon of a house" title="Return to Dashboard">
+    </a>
+    <span id="stats">
+      <statistic-box title="Completed Count" id="comp-count">
+        <img class="icon" src="./assets/done_icon.svg" alt="Completed count icon">
+        <span></span>
+      </statistic-box>
+      <statistic-box title="Remaining Count" id="rem-count">
+        <img class="icon" src="./assets/remaining_icon.svg" alt="Remaining count icon">
+        <span></span>
+      </statistic-box>
+    </span>
+  </nav>
+  <h1></h1>
+</header>
+<main>
+  <form method="POST" action="#">
+    <label for="definition">Definition</label>
+    <input type="text" name="definition" id="definition" placeholder="Your Response"
+      spellcheck="false" autocapitalize="none" autocomplete="off" autofocus required> 
+
+    <output style="display: none;"></output>
+
+    <button type="submit">Show Answer</button>
+  </form>
+</main>
+</body>
+
+</html>
