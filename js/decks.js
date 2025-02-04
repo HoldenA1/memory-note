@@ -10,6 +10,7 @@ const dialogCancel = document.getElementById('cancel')
 const plusButton = document.getElementById('create-deck');
 const deck = document.getElementById('deckName');
 const deckCardsContainer = document.getElementById('deck-cards');
+const output = document.querySelector('output');
 
 
 // Hold an instance of a db object for us to store the IndexedDB data in
@@ -20,9 +21,28 @@ console.log('App initialized.');
 // Let us open our database
 const DBOpenRequest = window.indexedDB.open(DB_NAME, DB_VERSION);
 
-// Register two event handlers to act on the database being opened successfully, or not
+function displayMessage(el, message) {
+  el.innerText = message;
+  el.style.opacity = 1;
+  setTimeout(function() {
+      el.style.opacity = 0;
+  }, 3000);
+}
+
+function displayActionFailure(message) {
+  output.classList.remove('success');
+  output.classList.add('fail');
+  displayMessage(output, message);
+}
+
+function displayActionSuccess(message) {
+  output.classList.remove('fail');
+  output.classList.add('success');
+  displayMessage(output, message);
+}
+
 DBOpenRequest.onerror = (event) => {
-  console.error('Error loading database.');
+  displayActionFailure('Error loading database.');
 };
 
 DBOpenRequest.onsuccess = (event) => {
@@ -42,7 +62,7 @@ DBOpenRequest.onupgradeneeded = (event) => {
   db = event.target.result;
 
   db.onerror = (event) => {
-    console.error('Error loading database.');
+    displayActionFailure('Error loading database.');
   };
 
   // Create flashcards objectStore for this database
@@ -58,34 +78,37 @@ DBOpenRequest.onupgradeneeded = (event) => {
   console.log('Object stores created.');  
 };
 
-function displayDecks() {
-  // First clear the content
-  deckCardsContainer.chil
-  while (deckCardsContainer.firstChild) {
-    deckCardsContainer.removeChild(deckCardsContainer.lastChild);
+class DeckCard extends HTMLElement {
+  constructor() {
+    super();
   }
 
-  // Open our object store and then get a cursor list of all the different data items in the IDB to iterate through
+  connectedCallback() {
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.textContent = this.getAttribute("deck-name");
+  }
+}
+
+customElements.define('deck-card', DeckCard);
+
+function displayDecks() {
+  // First, clear the content
+  deckCardsContainer.textContent = '';
+
+  // Open the object store, then get a cursor list of the items to iterate
   const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
   objectStore.openCursor().onsuccess = (event) => {
     const cursor = event.target.result;
-    // Check if there are no (more) cursor items to iterate through
-    if (!cursor) {
-      // No more items to iterate through, we quit.
-      console.log('Entries all displayed.');
-      return;
-    }
+
+    if (!cursor) return; // All items iterated
 
     const { deckName, id } = cursor.value;
 
-    // Build the entry and put it into the list item.
-    const listItem = document.createElement('p');
-    listItem.textContent = `${deckName} — ${id}`;
+    const card = document.createElement('deck-card');
+    card.setAttribute('deck-name', deckName);
 
-    // Put the item item inside the task list
-    deckCardsContainer.appendChild(listItem);
+    deckCardsContainer.appendChild(card);
 
-    // continue on to the next item in the cursor
     cursor.continue();
   };
 };
@@ -112,7 +135,9 @@ function addDeck(e) {
 
   // Handler for any unexpected error
   transaction.onerror = () => {
-    console.error(`Transaction not opened due to error: ${transaction.error}`);
+    // Clear the form
+    deck.value = '';
+    displayActionFailure('There is already a deck with this name. Please choose another name.');
   };
 
   // Call an object store that's already been added to the database
@@ -133,10 +158,34 @@ function addDeck(e) {
   };
 };
 
+// function populateCards(evt) {
+//   let tx = this.result.transaction(DB_STORE_NAME, 'readwrite');
+//   let store = tx.objectStore(DB_STORE_NAME);
+//   let req = store.getAll();
+//   req.onsuccess = function(evt) {
+//     cards = req.result;
+//     const container = document.getElementById('cards');
+//     for (let i = 0; i < cards.length; i++) {
+//       const cardEl = document.createElement('div');
+//       const termEl = document.createElement('p');
+//       const defnEl = document.createElement('p');
+//       termEl.innerText = `term: ${cards[i].term}`;
+//       defnEl.innerText = `defn: ${cards[i].defn}`;
+//       cardEl.appendChild(termEl);
+//       cardEl.appendChild(defnEl);
+//       container.appendChild(cardEl);
+//     }
+//   };
+//   req.onerror = function() {
+//     console.error("add error", this.error);
+//   };
+// }
+
 
 dialogCancel.addEventListener('click', (e) => {
   e.preventDefault();
   console.log('close event');
   dialog.close();
 });
+
 plusButton.addEventListener('click', () =>  dialog.showModal());
