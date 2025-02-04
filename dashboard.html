@@ -64,24 +64,36 @@
 </head>
 
 <body>
-  <header>
-    <h1>My Decks</h1>
-  </header>
+
+  <output class="notification"></output>
+
+  <header><h1>My Decks</h1></header>
+
   <main>
+
     <section id="deck-cards"></section>
+
     <dialog id="new-deck-dialog">
+
       <h2>New deck</h2>
-      <form method="dialog">
-        <input type="text" name="deck-name" id="deck-name" placeholder="Choose a name"
+
+      <form method="POST" action="#">
+
+        <input type="text" name="deckName" id="deckName" placeholder="Choose a name"
           spellcheck="false" autocapitalize="none" autocomplete="off" autofocus required> 
+        
         <menu>
-          <li><button formnovalidate>Cancel</button></li>
+          <li><button id="cancel" type="button">Cancel</button></li>
           <li><button type="submit">OK</button></li>
         </menu>
+
       </form>
     </dialog>
+
     <button id="create-deck">+</button>
+
   </main>
+
 </body>
 
 </html>

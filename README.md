@@ -4,4 +4,5 @@ I plan for this project to be a simple flashcard PWA that stores data locally wi
 
 ## Todo
 
-[ ] Fix buggy popup window on mobile (the box only move when the keyboard is in the way sometimes)
+- [x] Create add deck functionality
+- [ ] Add error notification when deck cannot be created
