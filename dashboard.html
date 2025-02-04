@@ -5,14 +5,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Dashboard - Omoidasu Noto</title>
+  <title>Decks | Omoidasu Noto</title>
 
   <link rel="stylesheet" href="./styles/main.css">
-  <!-- <script async type="module" src="./js/create-flashcard.js"></script> -->
+  <style>
+    #create-deck {
+      position: fixed;
+      padding: 0;
+      bottom: 30px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--accent-color);
+      border-radius: 18px;
+      color: white;
+      border: none;
+      font-size: 35px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    dialog button {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    dialog {
+      width: 80%;
+      border-radius: 20px;
+      border: none;
+    }
+    form {
+      display: flex;
+    }
+    dialog h2 {
+      margin: 0;
+    }
+    form input {
+      text-align: left;
+      margin: 1em 0;
+    }
+    menu {
+      list-style-type: none;
+      display: flex;
+      padding: 0;
+      margin-bottom: 0;
+      gap: 1em;
+      justify-content: flex-end;
+    }
+    menu li {
+      margin: 0;
+    }
+    menu button {
+      margin: 0
+    }
+  </style>
+  <script type="module" src="./js/decks.js" defer></script>
 </head>
 
 <body>
-  <h1>Welcome to your Dashboard</h1>
+  <header>
+    <h1>My Decks</h1>
+  </header>
+  <main>
+    <section id="deck-cards"></section>
+    <dialog id="new-deck-dialog">
+      <h2>New deck</h2>
+      <form method="dialog">
+        <input type="text" name="deck-name" id="deck-name" placeholder="Choose a name"
+          spellcheck="false" autocapitalize="none" autocomplete="off" autofocus required> 
+        <menu>
+          <li><button formnovalidate>Cancel</button></li>
+          <li><button type="submit">OK</button></li>
+        </menu>
+      </form>
+    </dialog>
+    <button id="create-deck">+</button>
+  </main>
 </body>
 
 </html>
