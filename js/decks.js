@@ -1,7 +1,4 @@
-const DB_NAME = 'omoidasu-noto-db';
-const DB_VERSION = 1; // Use a long long for this value (don't use a float)
-const CARDS_STORE_NAME = 'flashcards';
-const DECKS_STORE_NAME = 'decks';
+import { openDb, DECKS_STORE_NAME } from './database.js';
 
 // All UI elements we need for the app
 const form = document.querySelector('form');
@@ -13,13 +10,8 @@ const deckCardsContainer = document.getElementById('deck-cards');
 const output = document.querySelector('output');
 
 
-// Hold an instance of a db object for us to store the IndexedDB data in
+// Hold an instance of a db object
 let db;
-
-console.log('App initialized.');
-
-// Let us open our database
-const DBOpenRequest = window.indexedDB.open(DB_NAME, DB_VERSION);
 
 function displayMessage(el, message) {
   el.innerText = message;
@@ -41,42 +33,19 @@ function displayActionSuccess(message) {
   displayMessage(output, message);
 }
 
-DBOpenRequest.onerror = (event) => {
+function onerror() {
   displayActionFailure('Error loading database.');
 };
 
-DBOpenRequest.onsuccess = (event) => {
-  console.log('Database initialised.');
-
-  // Store the result of opening the database in the db variable. This is used a lot below
-  db = DBOpenRequest.result;
-
+function onsuccess(event) {
+  // Store the result of opening the database in the db variable
+  db = event.target.result;
   // Populate the data already in the IndexedDB
   displayDecks();
 };
 
-// This event handles the event whereby a new version of the database needs to be created
-// Either one has not been created before, or a new version number has been submitted via the
-// window.indexedDB.open line above
-DBOpenRequest.onupgradeneeded = (event) => {
-  db = event.target.result;
-
-  db.onerror = (event) => {
-    displayActionFailure('Error loading database.');
-  };
-
-  // Create flashcards objectStore for this database
-  const cardStore = db.createObjectStore(CARDS_STORE_NAME, { keyPath: 'id', autoIncrement: true });
-  cardStore.createIndex('term', 'term', { unique: false });
-  cardStore.createIndex('defn', 'defn', { unique: false });
-  cardStore.createIndex('deckIdIndex', 'deckId', { unique: false });
-
-  // Create deck objectStore for this database
-  const deckStore = db.createObjectStore(DECKS_STORE_NAME, { keyPath: "id", autoIncrement: true });
-  deckStore.createIndex('deckName', 'deckName', { unique: true });
-  
-  console.log('Object stores created.');  
-};
+// Open the database and get our db instance
+openDb(onsuccess, onerror);
 
 class DeckCard extends HTMLElement {
   constructor() {
@@ -84,6 +53,7 @@ class DeckCard extends HTMLElement {
   }
 
   connectedCallback() {
+    // Build the component here
     const shadow = this.attachShadow({ mode: "open" });
     shadow.textContent = this.getAttribute("deck-name");
   }
@@ -94,7 +64,6 @@ customElements.define('deck-card', DeckCard);
 function displayDecks() {
   // First, clear the content
   deckCardsContainer.textContent = '';
-
   // Open the object store, then get a cursor list of the items to iterate
   const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
   objectStore.openCursor().onsuccess = (event) => {
@@ -116,75 +85,34 @@ function displayDecks() {
 form.addEventListener('submit', addDeck);
 
 function addDeck(e) {
-  // Prevent default, as we don't want the form to submit in the conventional way
+  // We don't want the form to submit normally
   e.preventDefault();
-  
-  // Grab the values entered into the form fields and store them in an object ready for being inserted into the IndexedDB
+  // Grab the values entered into the form fields
   const newItem = { deckName: deck.value };
-
-  // Open a read/write DB transaction, ready for adding the data
+  // Open a read/write DB transaction for adding the data
   const transaction = db.transaction([DECKS_STORE_NAME], 'readwrite');
-
-  // Report on the success of the transaction completing, when everything is done
-  transaction.oncomplete = () => {
-    console.log('Transaction completed: database modification finished.');
-
-    // Update the display of data to show the newly added item.
-    displayDecks();
-  };
-
+  // Update with new deck
+  transaction.oncomplete = displayDecks;
   // Handler for any unexpected error
   transaction.onerror = () => {
     // Clear the form
     deck.value = '';
     displayActionFailure('There is already a deck with this name. Please choose another name.');
   };
-
-  // Call an object store that's already been added to the database
+  
   const deckStore = transaction.objectStore(DECKS_STORE_NAME);
 
   // Make a request to add our newItem object to the object store
   const objectStoreRequest = deckStore.add(newItem);
-  objectStoreRequest.onsuccess = (event) => {
-
-    // Report the success of our request
-    // (to detect whether it has been succesfully
-    // added to the database, you'd look at transaction.oncomplete)
-    console.log('Request successful.');
-
-    // Clear the form, ready for adding the next entry
+  objectStoreRequest.onsuccess = () => {
+    // Clear the form since we prevent defualt
     deck.value = '';
     dialog.close();
   };
 };
 
-// function populateCards(evt) {
-//   let tx = this.result.transaction(DB_STORE_NAME, 'readwrite');
-//   let store = tx.objectStore(DB_STORE_NAME);
-//   let req = store.getAll();
-//   req.onsuccess = function(evt) {
-//     cards = req.result;
-//     const container = document.getElementById('cards');
-//     for (let i = 0; i < cards.length; i++) {
-//       const cardEl = document.createElement('div');
-//       const termEl = document.createElement('p');
-//       const defnEl = document.createElement('p');
-//       termEl.innerText = `term: ${cards[i].term}`;
-//       defnEl.innerText = `defn: ${cards[i].defn}`;
-//       cardEl.appendChild(termEl);
-//       cardEl.appendChild(defnEl);
-//       container.appendChild(cardEl);
-//     }
-//   };
-//   req.onerror = function() {
-//     console.error("add error", this.error);
-//   };
-// }
-
-
 dialogCancel.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('close event');
   dialog.close();
 });
 
