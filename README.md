@@ -6,7 +6,7 @@ I plan for this project to be a simple flashcard PWA that stores data locally wi
 
 - [x] Create add deck functionality
 - [x] Add error notification when deck cannot be created
-- [ ] Clean up js code and move to database.js for reusability
+- [x] Clean up js code and move to database.js for reusability
 - [ ] Update flashcard creation to work with new database
 - [ ] Make styling consistent across pages
 - [ ] Add noscript tags to notify users that JS is required for the app to work

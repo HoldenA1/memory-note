@@ -1,106 +1,55 @@
-import { DB_NAME, DB_VERSION, DB_STORE_NAME,
-  openDb } from './database.js';
+import { openDb, DECKS_STORE_NAME } from './database.js';
 
-class CardContents extends HTMLElement {
-  constructor() {
-    // Always call super first in constructor
-    super();
-  }
+const heading = document.querySelector('h1');
+const title = document.querySelector('title');
+const parsedUrl = new URL(window.location.href);
+const deckId = parsedUrl.searchParams.get('deck');
 
-  connectedCallback() {
-    // Create a shadow root
-    const shadow = this.attachShadow({ mode: "open" });
+// Hold an instance of a db object
+let db;
 
-    // Create spans
-    const wrapper = document.createElement("span");
-    wrapper.setAttribute("class", "wrapper");
+function onerror() {
+  console.error('Error loading database.');
+};
 
-    const icon = document.createElement("span");
-    icon.setAttribute("class", "icon");
-    icon.setAttribute("tabindex", 0);
+function onsuccess(event) {
+  // Store the result of opening the database in the db variable
+  db = event.target.result;
+  // Populate the data already in the IndexedDB
+  setDeckTitle();
+};
 
-    const info = document.createElement("span");
-    info.setAttribute("class", "info");
+// Open the database and get our db instance
+openDb(onsuccess, onerror);
 
-    // Take attribute content and put it inside the info span
-    const text = this.getAttribute("data-text");
-    info.textContent = text;
-
-    // Insert icon
-    let imgUrl;
-    if (this.hasAttribute("img")) {
-      imgUrl = this.getAttribute("img");
-    } else {
-      imgUrl = "img/default.png";
-    }
-
-    const img = document.createElement("img");
-    img.src = imgUrl;
-    icon.appendChild(img);
-
-    // Create some CSS to apply to the shadow dom
-    const style = document.createElement("style");
-    console.log(style.isConnected);
-
-    style.textContent = `
-      .wrapper {
-        position: relative;
-      }
-
-      .info {
-        font-size: 0.8rem;
-        width: 200px;
-        display: inline-block;
-        border: 1px solid black;
-        padding: 10px;
-        background: white;
-        border-radius: 10px;
-        opacity: 0;
-        transition: 0.6s all;
-        position: absolute;
-        bottom: 20px;
-        left: 10px;
-        z-index: 3;
-      }
-
-      img {
-        width: 1.2rem;
-      }
-
-      .icon:hover + .info, .icon:focus + .info {
-        opacity: 1;
-      }
-    `;
-
-    // Attach the created elements to the shadow dom
-    shadow.appendChild(style);
-    shadow.appendChild(wrapper);
-    wrapper.appendChild(icon);
-    wrapper.appendChild(info);
+function setDeckTitle() {
+  const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
+  const req = objectStore.get(parseInt(deckId));
+  req.onsuccess = () => {
+    let name = req.result.deckName;
+    title.textContent = name + ' | Omoidasu Noto';
+    heading.textContent = name;
   }
 }
 
-function populateCards(evt) {
-  let tx = this.result.transaction(DB_STORE_NAME, 'readwrite');
-  let store = tx.objectStore(DB_STORE_NAME);
-  let req = store.getAll();
-  req.onsuccess = function(evt) {
-    cards = req.result;
-    const container = document.getElementById('cards');
-    for (let i = 0; i < cards.length; i++) {
-      const cardEl = document.createElement('div');
-      const termEl = document.createElement('p');
-      const defnEl = document.createElement('p');
-      termEl.innerText = `term: ${cards[i].term}`;
-      defnEl.innerText = `defn: ${cards[i].defn}`;
-      cardEl.appendChild(termEl);
-      cardEl.appendChild(defnEl);
-      container.appendChild(cardEl);
-    }
-  };
-  req.onerror = function() {
-    console.error("add error", this.error);
-  };
-}
+// function displayCards() {
+//   // First, clear the content
+//   deckCardsContainer.textContent = '';
+//   // Open the object store, then get a cursor list of the items to iterate
+//   const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
+//   objectStore.openCursor().onsuccess = (event) => {
+//     const cursor = event.target.result;
 
-openDb(DB_NAME, DB_VERSION, DB_STORE_NAME, populateCards);
+//     if (!cursor) return; // All items iterated
+
+//     const { deckName, id } = cursor.value;
+
+//     const card = document.createElement('deck-card');
+//     card.setAttribute('deck-name', deckName);
+//     card.setAttribute('deck-id', id);
+
+//     deckCardsContainer.appendChild(card);
+
+//     cursor.continue();
+//   };
+// };
