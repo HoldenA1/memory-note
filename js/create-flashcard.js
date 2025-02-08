@@ -1,4 +1,19 @@
-import { DB_NAME, DB_VERSION, DB_STORE_NAME, openDb } from './database.js';
+import { openDb, getDecksInfo } from './database.js';
+
+const parsedUrl = new URL(window.location.href);
+const deckId = parsedUrl.searchParams.get('deck');
+
+  getDecksInfo(db, (decks) => {
+    decks.forEach(element => {
+      const { deckName, id } = element;
+
+      const card = document.createElement('deck-card');
+      card.setAttribute('deck-name', deckName);
+      card.setAttribute('deck-id', id);
+
+      deckCardsContainer.appendChild(card);
+    });
+  });
 
 let db;
 

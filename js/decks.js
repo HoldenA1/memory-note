@@ -1,4 +1,4 @@
-import { openDb, DECKS_STORE_NAME } from './database.js';
+import { openDb, getDecksInfo, DECKS_STORE_NAME } from './database.js';
 
 // All UI elements we need for the app
 const form = document.querySelector('form');
@@ -55,7 +55,12 @@ class DeckCard extends HTMLElement {
   connectedCallback() {
     // Build the component here
     const shadow = this.attachShadow({ mode: "open" });
-    shadow.textContent = this.getAttribute("deck-name");
+    const link = document.createElement('a');
+    link.textContent = this.getAttribute("deck-name");
+    let id = this.getAttribute('deck-id');
+    let url = `./view-deck.html?deck=${id}`;
+    link.setAttribute('href', url);
+    shadow.appendChild(link);
   }
 }
 
@@ -64,22 +69,18 @@ customElements.define('deck-card', DeckCard);
 function displayDecks() {
   // First, clear the content
   deckCardsContainer.textContent = '';
-  // Open the object store, then get a cursor list of the items to iterate
-  const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
-  objectStore.openCursor().onsuccess = (event) => {
-    const cursor = event.target.result;
 
-    if (!cursor) return; // All items iterated
+  getDecksInfo(db, (decks) => {
+    decks.forEach(element => {
+      const { deckName, id } = element;
 
-    const { deckName, id } = cursor.value;
+      const card = document.createElement('deck-card');
+      card.setAttribute('deck-name', deckName);
+      card.setAttribute('deck-id', id);
 
-    const card = document.createElement('deck-card');
-    card.setAttribute('deck-name', deckName);
-
-    deckCardsContainer.appendChild(card);
-
-    cursor.continue();
-  };
+      deckCardsContainer.appendChild(card);
+    });
+  });
 };
 
 form.addEventListener('submit', addDeck);

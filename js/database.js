@@ -33,4 +33,19 @@ function openDb(onsuccess, onerror) {
   };
 }
 
-export { openDb };
+function getDecksInfo(db, callback) {
+  const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
+  const decks = [];
+  objectStore.openCursor().onsuccess = (event) => {
+    const cursor = event.target.result;
+
+    if (cursor) {
+      decks.push(cursor.value);
+      cursor.continue();
+    } else {
+      callback(decks);
+    }
+  };
+}
+
+export { openDb, getDecksInfo };

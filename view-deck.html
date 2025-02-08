@@ -8,22 +8,39 @@
   <title>Omoidasu Noto</title>
 
   <link rel="stylesheet" href="./styles/main.css">
+  <style>
+    deck-card {
+      display: block;
+      background-color: rgb(226, 226, 226);
+      border-radius: 10px;
+      padding: 1em;
+      margin: 1em 0;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
   <script type="module" src="./js/view-deck.js" defer></script>
 </head>
 
 <body>
+
 <header>
   <nav>
     <a href="./dashboard.html">
-      <img src="./assets/home_icon.svg" alt="Go to Homepage" title="Return to Dashboard">
+      <img class="icon" src="./assets/home_icon.svg" alt="Icon of a house" title="Return to Dashboard">
     </a>
   </nav>
 </header>
+
 <main>
+
   <h1></h1>
-  <section id="terms">
-    <h2></h2>
-  </section>
+
+  <section id="terms"></section>
+
+  <a class="plus-button" href="./create-flashcard.html">+</a>
+
 </main>
 </body>
 

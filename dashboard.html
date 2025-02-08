@@ -12,23 +12,6 @@
     body {
       margin: 0;
     }
-    #create-deck {
-      position: fixed;
-      padding: 0;
-      bottom: 30px;
-      right: 25px;
-      width: 60px;
-      height: 60px;
-      background-color: var(--accent-color);
-      border-radius: 18px;
-      color: white;
-      border: none;
-      font-size: 35px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
     #deck-cards {
       padding: 0 1em;
     }
@@ -93,7 +76,7 @@
       <form method="POST" action="#">
 
         <input type="text" name="deckName" id="deckName" placeholder="Choose a name"
-          spellcheck="false" autocapitalize="none" autocomplete="off" autofocus required> 
+          spellcheck="false" autofocus required> 
         
         <menu>
           <li><button id="cancel" type="button">Cancel</button></li>
@@ -103,7 +86,7 @@
       </form>
     </dialog>
 
-    <button id="create-deck">+</button>
+    <button class="plus-button" id="create-deck">+</button>
 
   </main>
 
