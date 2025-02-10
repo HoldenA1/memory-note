@@ -34,13 +34,13 @@ class DeckCard extends HTMLElement {
 
   connectedCallback() {
     // Build the component here
-    const shadow = this.attachShadow({ mode: "open" });
+    this.classList.add('card');
     const link = document.createElement('a');
     link.textContent = this.getAttribute("deck-name");
     let id = this.getAttribute('deck-id');
     let url = `./view-deck.html?deck=${id}`;
     link.setAttribute('href', url);
-    shadow.appendChild(link);
+    this.appendChild(link);
   }
 }
 
@@ -98,3 +98,7 @@ dialogCancel.addEventListener('click', (e) => {
 });
 
 plusButton.addEventListener('click', () =>  dialog.showModal());
+
+output.addEventListener("transitionend", () => {
+  output.style.display = 'none';
+});

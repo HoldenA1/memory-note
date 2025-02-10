@@ -51,3 +51,13 @@ function createFlashcard(event) {
 }
 
 form.addEventListener('submit', createFlashcard);
+
+/* 
+This removes the output from the DOM render tree so
+it doesn't cover clickable elements after it is hidden.
+I'd like to find a cleaner way to do this so it doesn't
+stay here.
+*/
+output.addEventListener("transitionend", () => {
+    output.style.display = 'none';
+});

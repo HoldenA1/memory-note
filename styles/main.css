@@ -15,6 +15,14 @@ h1 {
   margin-top: 0;
 }
 
+.card {
+  display: block;
+  background-color: rgb(226, 226, 226);
+  border-radius: 10px;
+  padding: 1em;
+  margin: 1em 0;
+}
+
 .plus-button {
   position: fixed;
   padding: 0;
@@ -56,10 +64,11 @@ button:hover {
 }
 
 .notification {
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease-in-out;
   border-radius: 0.5em;
   text-align: center;
+  display: none;
   position: fixed;
   top: 0;
   left: 0;

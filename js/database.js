@@ -80,6 +80,7 @@ function getDecksInfo(db, callback) {
 function displayMessage(el, message) {
   el.innerText = message;
   el.style.opacity = 1;
+  el.style.display = 'inherit';
   setTimeout(function() {
       el.style.opacity = 0;
   }, 3000);

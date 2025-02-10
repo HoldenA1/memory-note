@@ -56,15 +56,15 @@ class Flashcard extends HTMLElement {
 
   connectedCallback() {
     // Build the component here
-    const shadow = this.attachShadow({ mode: "open" });
+    this.classList.add('card');
     let term = this.getAttribute('term');
     let defn = this.getAttribute('defn');
     let t1 = document.createElement('p');
     t1.textContent = term;
-    shadow.appendChild(t1);
+    this.appendChild(t1);
     let t2 = document.createElement('p');
     t2.textContent = defn;
-    shadow.appendChild(t2);
+    this.appendChild(t2);
   }
 }
 
