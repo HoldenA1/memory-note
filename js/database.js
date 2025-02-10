@@ -33,6 +33,30 @@ function openDb(onsuccess, onerror) {
   };
 }
 
+/**
+ * Adds the given term/definition pair into the flashcards store
+ * @param {IDBDatabase} db
+ * @param {string} term
+ * @param {string} defn
+ * @param {number} deckId
+ * @param {function} onsuccess
+ * @param {function} onerror
+ */
+function saveFlashcard(db, term, defn, deckId, onsuccess, onerror) {
+  let obj = { term: term, defn: defn, deckId: deckId };
+
+  let tx = db.transaction(CARDS_STORE_NAME, 'readwrite');
+  let store = tx.objectStore(CARDS_STORE_NAME);
+  let req = store.add(obj);
+  req.onsuccess = onsuccess;
+  req.onerror = onerror;
+}
+
+/**
+ * Returns a JS object with everything in the decks store
+ * @param {IDBDatabase} db 
+ * @param {function} callback 
+ */
 function getDecksInfo(db, callback) {
   const objectStore = db.transaction(DECKS_STORE_NAME).objectStore(DECKS_STORE_NAME);
   const decks = [];
@@ -48,4 +72,24 @@ function getDecksInfo(db, callback) {
   };
 }
 
-export { openDb, getDecksInfo };
+function displayMessage(el, message) {
+  el.innerText = message;
+  el.style.opacity = 1;
+  setTimeout(function() {
+      el.style.opacity = 0;
+  }, 3000);
+}
+
+function displayActionFailure(el, message) {
+  el.classList.remove('success');
+  el.classList.add('fail');
+  displayMessage(el, message);
+}
+
+function displayActionSuccess(el, message) {
+  el.classList.remove('fail');
+  el.classList.add('success');
+  displayMessage(el, message);
+}
+
+export { openDb, getDecksInfo, saveFlashcard, displayActionFailure, displayActionSuccess };

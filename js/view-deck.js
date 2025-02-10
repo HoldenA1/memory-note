@@ -7,7 +7,7 @@ const deckId = parsedUrl.searchParams.get('deck');
 const termsContainer = document.getElementById('terms');
 const plus = document.querySelector('.plus-button');
 
-plus.setAttribute('href', './create-flashcard.html?id=' + deckId)
+plus.setAttribute('href', './create-flashcard.html?deck=' + deckId)
 
 // Hold an instance of a db object
 let db;

@@ -1,85 +1,53 @@
-import { openDb, getDecksInfo } from './database.js';
+import { openDb, getDecksInfo, saveFlashcard, displayActionFailure, displayActionSuccess } from './database.js';
 
 const parsedUrl = new URL(window.location.href);
+const deckSel = document.getElementById('deck-select');
 const deckId = parsedUrl.searchParams.get('deck');
+const form = document.querySelector('form');
+const output = document.querySelector('output');
+
+// Hold an instance of a db object
+let db;
+
+function onerror() {
+  console.error('Error loading database.');
+};
+
+function onsuccess(event) {
+  // Store the result of opening the database in the db variable
+  db = event.target.result;
 
   getDecksInfo(db, (decks) => {
+    if (deckId != null) deckSel.textContent = '';
+    
     decks.forEach(element => {
       const { deckName, id } = element;
 
-      const card = document.createElement('deck-card');
-      card.setAttribute('deck-name', deckName);
-      card.setAttribute('deck-id', id);
+      const option = document.createElement('option');
+      option.textContent = deckName;
+      option.setAttribute('value', id)
 
-      deckCardsContainer.appendChild(card);
+      if (deckId != null && deckId == id) option.setAttribute('selected', 'selected');
+
+      deckSel.appendChild(option);
     });
   });
+};
 
-let db;
-
-/**
- * @param {IDBDatabase} db
- * @param {string} store_name
- * @param {string} term
- * @param {string} defn
- * @param {function} displayActionSuccess
- * @param {function} displayActionFailure
- */
-function saveFlashcard(db, store_name, term, defn, actionSuccess, actionFailure) {
-  let obj = { term: term, defn: defn };
-
-  let tx = db.transaction(store_name, 'readwrite');
-  let store = tx.objectStore(store_name);
-  let req;
-  try {
-    req = store.add(obj);
-  } catch (e) {
-    throw e;
-  }
-  req.onsuccess = actionSuccess();
-  req.onerror = function() {
-    console.error("add error", this.error);
-    actionFailure();
-  };
-}
-
-function displayActionSuccess() {
-  let output = document.querySelector('output');
-  output.innerText = 'Card successfully submitted';
-  output.classList.remove('fail');
-  output.classList.add('success');
-  output.style.opacity = 1;
-  setTimeout(function() {
-      output.style.opacity = 0;
-  }, 3000);
-  document.querySelector('form').reset();
-}
-
-function displayActionFailure() {
-  let output = document.querySelector('output');
-  output.innerText = 'Card submission failed';
-  output.classList.remove('success');
-  output.classList.add('fail');
-  output.style.opacity = 1;
-  setTimeout(function() {
-      output.style.opacity = 0;
-  }, 3000);
-}
+// Open the database and get our db instance
+openDb(onsuccess, onerror);
 
 function createFlashcard(event) {
   event.preventDefault();
-  const formData = new FormData(document.querySelector('form'));
-  saveFlashcard(db, DB_STORE_NAME, formData.get('term').trim(),
-    formData.get('definition').trim(), displayActionSuccess,
-    displayActionFailure);
+  const formData = new FormData(form);
+  saveFlashcard(
+    db,
+    formData.get('term').trim(),
+    formData.get('definition').trim(),
+    parseInt(formData.get('deck-select')),
+    () => displayActionSuccess(output, 'Card successfully submitted.'),
+    () => displayActionFailure(output, 'Card submission failed.')
+  );
 }
 
-function addEventListeners() {
-  const form = document.querySelector('form');
-  form.addEventListener('submit', createFlashcard);
-}
-
-openDb(DB_NAME, DB_VERSION, DB_STORE_NAME, function (evt) {
-  db = this.result;
-});
-addEventListeners();
+form.addEventListener('submit', createFlashcard);

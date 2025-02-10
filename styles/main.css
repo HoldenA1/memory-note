@@ -5,8 +5,14 @@
   font-family: Verdana, sans-serif;
 }
 
+body {
+  padding: 1em;
+  margin: 0;
+}
+
 h1 {
   text-align: center;
+  margin-top: 0;
 }
 
 .plus-button {
@@ -54,10 +60,13 @@ button:hover {
   transition: opacity 0.5s ease-in-out;
   border-radius: 0.5em;
   text-align: center;
-  padding: 5vw;
   position: fixed;
-  margin: 5vw;
   top: 0;
+  left: 0;
+  width: calc(100vw - 20px); /* subtract margins */ 
+  padding: 20px;
+  margin: 10px;
+  box-sizing: border-box;
 }
 
 .fail {
@@ -79,7 +88,7 @@ button:hover {
 }
 
 label {
-  margin: 0 0 0.5em;
+  margin: 0 0 0.2em;
 }
 
 input {

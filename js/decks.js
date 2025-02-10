@@ -1,4 +1,4 @@
-import { openDb, getDecksInfo, DECKS_STORE_NAME } from './database.js';
+import { openDb, getDecksInfo, DECKS_STORE_NAME, displayActionFailure, displayActionSuccess } from './database.js';
 
 // All UI elements we need for the app
 const form = document.querySelector('form');
@@ -13,28 +13,8 @@ const output = document.querySelector('output');
 // Hold an instance of a db object
 let db;
 
-function displayMessage(el, message) {
-  el.innerText = message;
-  el.style.opacity = 1;
-  setTimeout(function() {
-      el.style.opacity = 0;
-  }, 3000);
-}
-
-function displayActionFailure(message) {
-  output.classList.remove('success');
-  output.classList.add('fail');
-  displayMessage(output, message);
-}
-
-function displayActionSuccess(message) {
-  output.classList.remove('fail');
-  output.classList.add('success');
-  displayMessage(output, message);
-}
-
 function onerror() {
-  displayActionFailure('Error loading database.');
+  displayActionFailure(output, 'Error loading database.');
 };
 
 function onsuccess(event) {
@@ -98,7 +78,7 @@ function addDeck(e) {
   transaction.onerror = () => {
     // Clear the form
     deck.value = '';
-    displayActionFailure('There is already a deck with this name. Please choose another name.');
+    displayActionFailure(output, 'There is already a deck with this name. Please choose another name.');
   };
   
   const deckStore = transaction.objectStore(DECKS_STORE_NAME);

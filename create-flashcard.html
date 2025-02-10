@@ -12,6 +12,9 @@
 </head>
 
 <body>
+
+<output class="notification"></output>
+
 <header>
   <nav>
     <a href="./dashboard.html">
@@ -20,6 +23,7 @@
   </nav>
   <h1>Create a Flashcard</h1>
 </header>
+
 <main>
   <form method="POST" action="#">
 
@@ -30,14 +34,11 @@
     <input type="text" name="definition" id="definition" required>
 
     <label for="deck-select">Deck</label>
-
-    <select name="decks" id="deck-select">
-      <option value="">--Please choose an option--</option>
+    <select name="deck-select" id="deck-select" required>
+      <option value="" selected>--Please choose an option--</option>
     </select>
 
     <button type="submit">Create Flashcard</button>
-
-    <output class="notification"></output>
 
   </form>
 </main>
