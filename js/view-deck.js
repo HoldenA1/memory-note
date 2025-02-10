@@ -3,7 +3,7 @@ import { openDb, DECKS_STORE_NAME, CARDS_STORE_NAME } from './database.js';
 const heading = document.querySelector('h1');
 const title = document.querySelector('title');
 const parsedUrl = new URL(window.location.href);
-const deckId = parsedUrl.searchParams.get('deck');
+const deckId = parseInt(parsedUrl.searchParams.get('deck'));
 const termsContainer = document.getElementById('terms');
 const plus = document.querySelector('.plus-button');
 
@@ -41,21 +41,12 @@ function getFlashcardsForDeck(deckId, callback) {
   const transaction = db.transaction(CARDS_STORE_NAME, 'readonly');
   const store = transaction.objectStore(CARDS_STORE_NAME);
   
-  // Use the index to open a cursor for the specific deckId
-  const index = store.index('deckIdIndex');
+  // Find all cards in the deck
+  const index = store.index('deckId');
   const range = IDBKeyRange.only(deckId);
-  const flashcards = [];
+  const getRequest = index.getAll(range);
   
-  index.openCursor(range).onsuccess = (event) => {
-    const cursor = event.target.result;
-    if (cursor) {
-      flashcards.push(cursor.value);
-      cursor.continue();
-    } else {
-      // All flashcards have been retrieved
-      callback(flashcards);
-    }
-  };
+  getRequest.onsuccess = () => callback(getRequest.result);
 }
 
 class Flashcard extends HTMLElement {
@@ -66,7 +57,6 @@ class Flashcard extends HTMLElement {
   connectedCallback() {
     // Build the component here
     const shadow = this.attachShadow({ mode: "open" });
-    link.textContent = this.getAttribute("deck-name");
     let term = this.getAttribute('term');
     let defn = this.getAttribute('defn');
     let t1 = document.createElement('p');
@@ -85,8 +75,9 @@ function displayCards() {
   termsContainer.textContent = '';
   // Retrieve card data from store
   getFlashcardsForDeck(deckId, (cards) => {
+    console.log(cards);
     if (cards.length > 0) {
-      cards.array.forEach(card => {
+      cards.forEach(card => {
         const cardEl = document.createElement('flash-card');
         cardEl.setAttribute('term', card.term);
         cardEl.setAttribute('defn', card.defn);

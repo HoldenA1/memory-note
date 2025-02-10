@@ -19,13 +19,13 @@ function openDb(onsuccess, onerror) {
   req.onsuccess = onsuccess;
   
   req.onupgradeneeded = function (event) {
-    db = event.target.result;
+    let db = event.target.result;
     
     // Create flashcards objectStore for this database
     const cardStore = db.createObjectStore(CARDS_STORE_NAME, { keyPath: 'id', autoIncrement: true });
     cardStore.createIndex('term', 'term', { unique: false });
     cardStore.createIndex('defn', 'defn', { unique: false });
-    cardStore.createIndex('deckIdIndex', 'deckId', { unique: false });
+    cardStore.createIndex('deckId', 'deckId', { unique: false });
   
     // Create deck objectStore for this database
     const deckStore = db.createObjectStore(DECKS_STORE_NAME, { keyPath: "id", autoIncrement: true });
