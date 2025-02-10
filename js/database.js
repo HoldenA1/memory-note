@@ -72,6 +72,11 @@ function getDecksInfo(db, callback) {
   };
 }
 
+/**
+ * Helper function that adds a fade out to notifications
+ * @param {HTMLElement} el 
+ * @param {string} message 
+ */
 function displayMessage(el, message) {
   el.innerText = message;
   el.style.opacity = 1;
@@ -80,12 +85,24 @@ function displayMessage(el, message) {
   }, 3000);
 }
 
+/**
+ * This function takes a notification element, gives it failure styling,
+ * displays the given message, and has it fade away after 3 seconds.
+ * @param {HTMLElement} el 
+ * @param {string} message 
+ */
 function displayActionFailure(el, message) {
   el.classList.remove('success');
   el.classList.add('fail');
   displayMessage(el, message);
 }
 
+/**
+ * This function takes a notification element, gives it success styling,
+ * displays the given message, and has it fade away after 3 seconds.
+ * @param {HTMLElement} el 
+ * @param {string} message 
+ */
 function displayActionSuccess(el, message) {
   el.classList.remove('fail');
   el.classList.add('success');
