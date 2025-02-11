@@ -5,6 +5,8 @@ const deckSel = document.getElementById('deck-select');
 const deckId = parsedUrl.searchParams.get('deck');
 const form = document.querySelector('form');
 const output = document.querySelector('output');
+const termInput = document.getElementById('term');
+const defnInput = document.getElementById('definition');
 
 // Hold an instance of a db object
 let db;
@@ -48,6 +50,9 @@ function createFlashcard(event) {
     () => displayActionSuccess(output, 'Card successfully submitted.'),
     () => displayActionFailure(output, 'Card submission failed.')
   );
+  termInput.value = '';
+  defnInput.value = '';
+  termInput.focus();
 }
 
 form.addEventListener('submit', createFlashcard);

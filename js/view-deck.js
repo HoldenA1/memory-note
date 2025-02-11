@@ -57,14 +57,26 @@ class Flashcard extends HTMLElement {
   connectedCallback() {
     // Build the component here
     this.classList.add('card');
-    let term = this.getAttribute('term');
-    let defn = this.getAttribute('defn');
-    let t1 = document.createElement('p');
+
+    const term = this.getAttribute('term');
+    const defn = this.getAttribute('defn');
+
+    const txtContainer = document.createElement('div');
+
+    const t1 = document.createElement('p');
+    t1.style.marginBottom = '1em';
     t1.textContent = term;
-    this.appendChild(t1);
-    let t2 = document.createElement('p');
+    txtContainer.appendChild(t1);
+
+    const t2 = document.createElement('p');
     t2.textContent = defn;
-    this.appendChild(t2);
+    txtContainer.appendChild(t2);
+
+    this.appendChild(txtContainer);
+
+    const image = document.createElement('img');
+    image.src = './assets/more_icon.svg';
+    this.appendChild(image);
   }
 }
 
@@ -75,7 +87,6 @@ function displayCards() {
   termsContainer.textContent = '';
   // Retrieve card data from store
   getFlashcardsForDeck(deckId, (cards) => {
-    console.log(cards);
     if (cards.length > 0) {
       cards.forEach(card => {
         const cardEl = document.createElement('flash-card');

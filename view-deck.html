@@ -12,8 +12,19 @@
     a {
       text-decoration: none;
     }
+    flash-card {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
     flash-card p {
+      white-space: nowrap;
+      overflow: hidden; 
       margin: 0;
+      text-overflow: ellipsis;
+      width: 70vw;
+    }
+    flash-card img {
     }
   </style>
   <script type="module" src="./js/view-deck.js" defer></script>

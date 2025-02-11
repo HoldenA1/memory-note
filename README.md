@@ -13,3 +13,6 @@ I plan for this project to be a simple flashcard PWA that stores data locally wi
 - [ ] Add manifest and service workers to make offline capable
 - [ ] Theme switching (dark, light, and system)
 - [ ] Research and implement spaced repetition system
+- [ ] Input validation
+- [ ] Error reporting for all of the issues
+- [ ] Have text truncate when can't fit in card
