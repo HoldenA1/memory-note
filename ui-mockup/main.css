@@ -1,0 +1,132 @@
+:root {
+  --accent-color: rgb(80, 108, 247);
+  --icon-height: 30px;
+
+  font-family: Verdana, sans-serif;
+}
+
+body {
+  background-color: rgb(23, 41, 65);
+  margin: 0;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+}
+
+.card {
+  background-color: rgb(226, 226, 226);
+  border-radius: 10px;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.plus-button {
+  position: fixed;
+  padding: 0;
+  bottom: 30px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--accent-color);
+  border-radius: 18px;
+  color: white;
+  border: none;
+  font-size: 35px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form * {
+  margin: 0 0 2em;
+}
+
+button {
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  color: white;
+  padding: 1em;
+}
+
+button:hover {
+  filter: brightness(95%);
+}
+
+.notification {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  border-radius: 0.5em;
+  text-align: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 20px); /* subtract margins */ 
+  padding: 20px;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.fail {
+  background-color: rgb(238, 191, 191);
+  border: 1px solid rgb(141, 65, 65);
+}
+
+.success {
+  background-color: rgb(191, 238, 191);
+  border: 1px solid rgb(65, 141, 65);
+}
+
+.correct {
+  background-color: rgb(191, 238, 191);
+}
+
+.incorrect {
+  background-color: rgb(238, 191, 191);
+}
+
+label {
+  margin: 0 0 0.2em;
+}
+
+input {
+  border: none;
+  padding: 1em;
+  background-color: rgb(230, 230, 230);
+  text-align: center;
+}
+
+select {
+  padding: 1em;
+}
+
+#stats {
+  float: right;
+  display: flex;
+}
+
+statistic-box {
+  padding: 0 0.5em;
+  height: var(--icon-height);
+  line-height: var(--icon-height);
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  height: var(--icon-height);
+}
+
+#cards {
+  display: flex;
+}

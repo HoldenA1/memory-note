@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Omoidasu Noto</title>
+
+  <link rel="stylesheet" href="./styles/main.css">
+  <style>
+    a {
+      text-decoration: none;
+    }
+    flash-card {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    flash-card p {
+      white-space: nowrap;
+      overflow: hidden; 
+      margin: 0;
+      text-overflow: ellipsis;
+      width: 70vw;
+    }
+    flash-card img {
+    }
+  </style>
+  <script type="module" src="./js/view-deck.js" defer></script>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a href="./dashboard.html">
+      <img class="icon" src="./assets/home_icon.svg" alt="Icon of a house" title="Return to Dashboard">
+    </a>
+  </nav>
+</header>
+
+<main>
+
+  <h1></h1>
+
+  <section id="terms"></section>
+
+  <a class="plus-button" href="./create-flashcard.html">+</a>
+
+</main>
+</body>
+
+</html>

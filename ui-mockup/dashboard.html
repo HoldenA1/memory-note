@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Decks | Omoidasu Noto</title>
+
+  <link rel="stylesheet" href="./main.css">
+  <style>
+    dialog button {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    dialog {
+      width: 80%;
+      border-radius: 20px;
+      border: none;
+    }
+    form {
+      display: flex;
+    }
+    dialog h2 {
+      margin: 0;
+    }
+    form input {
+      text-align: left;
+      margin: 1em 0;
+    }
+    menu {
+      list-style-type: none;
+      display: flex;
+      padding: 0;
+      margin-bottom: 0;
+      gap: 1em;
+      justify-content: flex-end;
+    }
+    menu li {
+      margin: 0;
+    }
+    menu button {
+      margin: 0
+    }
+
+
+
+
+    :root {
+      --faded-text: rgb(129, 138, 153);
+      --underline: rgb(86, 93, 105);
+      --ui-bg-color: rgb(45, 62, 85);
+    }
+
+    main {
+      padding: 0 1em;
+    }
+
+    header {
+      padding: 10px 15px;
+      background-color: var(--ui-bg-color);
+      border-bottom: 1px solid var(--underline);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: calc(100vw - 30px);
+    }
+
+    #deck-cards {
+      background-color: var(--ui-bg-color);
+      border-radius: 20px;
+    }
+
+    h2 {
+      margin-left: 10px;
+      color: var(--faded-text);
+      font-size: 1em;
+    }
+
+    deck-card a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 15px;
+      text-decoration: none;
+    }
+
+    deck-card a:hover {
+      background-color: rgb(145, 162, 187);
+    }
+
+    deck-card p {
+      color: white;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <output class="notification"></output>
+
+  <header><h1>My decks</h1></header>
+
+  <main style="margin-top: 80px;">
+    <h2>DECKS</h2>
+    <section id="deck-cards">
+      <deck-card>
+        <a href="#" style="border-top-left-radius: 20px;border-top-right-radius: 20px;border-bottom: 1px solid var(--underline);">
+          <p>Deck 1</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom: 1px solid var(--underline);">
+          <p>Deck 2</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+      <deck-card>
+        <a href="#" style="border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;">
+          <p>Deck 3</p>
+          <img src="../assets/more_icon.svg" alt="options" title="options">
+        </a>
+      </deck-card>
+    </section>
+
+    <dialog id="new-deck-dialog">
+
+      <h2>New deck</h2>
+
+      <form method="POST" action="#">
+
+        <input type="text" name="deckName" id="deckName" placeholder="Choose a name"
+          spellcheck="false" autofocus required> 
+        
+        <menu>
+          <li><button id="cancel" type="button">Cancel</button></li>
+          <li><button type="submit">OK</button></li>
+        </menu>
+
+      </form>
+    </dialog>
+
+    <button class="plus-button" id="create-deck">+</button>
+
+  </main>
+
+</body>
+
+</html>
