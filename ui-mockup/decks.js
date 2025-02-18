@@ -6,6 +6,8 @@ const plusButton = document.getElementById('create-deck');
 const deck = document.getElementById('deckName');
 const deckCardsContainer = document.getElementById('deck-cards');
 const output = document.querySelector('output');
+const optionsDialog = document.getElementById('deck-options-dialog');
+const optionsDialogHeaderEl = optionsDialog.querySelector('h2');
 
 class DeckCard extends HTMLElement {
   static get observedAttributes() {
@@ -45,13 +47,17 @@ class DeckCard extends HTMLElement {
     p.textContent = this.getAttribute('data-name');
     this.link.appendChild(p);
 
+    this.appendChild(this.link);
+
+    const options = document.createElement('button');
     const img = document.createElement('img');
     img.src = '../assets/more_icon.svg';
     img.alt = 'options';
     img.title = 'options';
-    this.link.appendChild(img);
+    options.appendChild(img);
+    this.appendChild(options);
 
-    this.appendChild(this.link);
+    options.addEventListener('click', () => openOptions(this.getAttribute('data-name')));
   }
 }
 
@@ -78,12 +84,17 @@ function addDeck(e) {
   dialog.close();
 };
 
+function openOptions(deckName) {
+  optionsDialogHeaderEl.textContent = deckName;
+  optionsDialog.showModal();
+}
+
 dialogCancel.addEventListener('click', (e) => {
   e.preventDefault();
   dialog.close();
 });
 
-plusButton.addEventListener('click', () =>  document.getElementById('deck-options-dialog').showModal());//dialog.showModal());
+plusButton.addEventListener('click', () => dialog.showModal());
 
 output.addEventListener('transitionend', () => {
   output.style.display = 'none';

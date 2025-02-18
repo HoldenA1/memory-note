@@ -113,13 +113,36 @@
       font-size: 1em;
     }
 
+    deck-card {
+      position: relative;
+    }
+
     deck-card a {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 15px 15px;
+      padding: var(--main-padding);
       text-decoration: none;
+    }
+
+    deck-card button {
+      background-color: transparent;
+      padding: 5px;
+      border-radius: 50%;
+      margin: 0;
+      position: absolute;
+      right: calc(var(--main-padding) - 5px);
+      top: calc(var(--main-padding) - 5px);
+      outline: none;
+    }
+
+    deck-card img {
+      vertical-align: middle;
+    }
+
+    deck-card button:hover {
+      background-color: rgb(63, 81, 107);
     }
 
     deck-card a:hover {
