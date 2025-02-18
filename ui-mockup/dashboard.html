@@ -9,25 +9,49 @@
 
   <link rel="stylesheet" href="./main.css">
   <style>
+    :root {
+      --faded-text: rgb(129, 138, 153);
+      --underline: rgb(86, 93, 105);
+      --ui-bg-color: rgb(45, 62, 85);
+      --plus-button-size: 60px;
+      --main-padding: 15px;
+    }
+
     dialog button {
-      background-color: var(--accent-color);
-      color: white;
+      background-color: transparent;
+      color: var(--accent-color);
     }
     dialog {
       width: 80%;
       border-radius: 20px;
+      background-color: var(--bg-color);
       border: none;
     }
+    ::backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
     form {
       display: flex;
     }
     dialog h2 {
+      color: white;
       margin: 0;
     }
     form input {
       text-align: left;
       margin: 1em 0;
+      color: white;
+      background-color: var(--ui-bg-color);
+      border: none;
+      border-radius: 10px;
+      padding: 1em;
     }
+    form input:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
     menu {
       list-style-type: none;
       display: flex;
@@ -43,17 +67,28 @@
       margin: 0
     }
 
-
-
-
-    :root {
-      --faded-text: rgb(129, 138, 153);
-      --underline: rgb(86, 93, 105);
-      --ui-bg-color: rgb(45, 62, 85);
+    .plus-button {
+      position: fixed;
+      padding: 0;
+      bottom: 20px;
+      right: var(--main-padding);
+      width: var(--plus-button-size);
+      height: var(--plus-button-size);
+      background-color: var(--accent-color);
+      border-radius: 18px;
+      color: black;
+      border: none;
+      font-size: 35px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     main {
-      padding: 0 1em;
+      padding: 0 var(--main-padding);
+      margin-top: 80px;
+      margin-bottom: calc(var(--plus-button-size) + 40px);
     }
 
     header {
@@ -73,6 +108,7 @@
 
     h2 {
       margin-left: 10px;
+      margin-bottom: 8px;
       color: var(--faded-text);
       font-size: 1em;
     }
@@ -95,6 +131,7 @@
       margin: 0;
     }
   </style>
+  <script src="decks.js" defer></script>
 </head>
 
 <body>
@@ -103,81 +140,16 @@
 
   <header><h1>My decks</h1></header>
 
-  <main style="margin-top: 80px;">
-    <h2>DECKS</h2>
+  <main>
+    <h2>Decks</h2>
     <section id="deck-cards">
-      <deck-card>
-        <a href="#" style="border-top-left-radius: 20px;border-top-right-radius: 20px;border-bottom: 1px solid var(--underline);">
-          <p>Deck 1</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom: 1px solid var(--underline);">
-          <p>Deck 2</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
-      <deck-card>
-        <a href="#" style="border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;">
-          <p>Deck 3</p>
-          <img src="../assets/more_icon.svg" alt="options" title="options">
-        </a>
-      </deck-card>
+      <deck-card data-name="Deck 1" data-location="top"></deck-card>
+      <deck-card data-name="Deck 2"></deck-card>
+      <deck-card data-name="Deck 3"></deck-card>
+      <deck-card data-name="Deck 4"></deck-card>
+      <deck-card data-name="Deck 5"></deck-card>
+      <deck-card data-name="Deck 6"></deck-card>
+      <deck-card data-name="Deck 7" data-location="bottom"></deck-card>
     </section>
 
     <dialog id="new-deck-dialog">
@@ -190,9 +162,23 @@
           spellcheck="false" autofocus required> 
         
         <menu>
-          <li><button id="cancel" type="button">Cancel</button></li>
+          <li><button id="new-cancel-but" type="button">Cancel</button></li>
           <li><button type="submit">OK</button></li>
         </menu>
+
+      </form>
+    </dialog>
+
+    <dialog id="deck-options-dialog">
+
+      <h2></h2>
+
+      <form method="POST" action="#">
+        
+        <button id="view-but" type="button">View</button>
+        <button id="edit-but" type="button">Edit</button>
+        <button id="delete-but" type="button">Delete</button>
+        <button id="options-cancel-but" type="button">Cancel</button>
 
       </form>
     </dialog>

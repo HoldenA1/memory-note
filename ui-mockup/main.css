@@ -1,12 +1,20 @@
-:root {
-  --accent-color: rgb(80, 108, 247);
-  --icon-height: 30px;
+@font-face {
+  font-family: Liter;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../assets/liter/Liter-Regular.ttf);
+}
 
-  font-family: Verdana, sans-serif;
+:root {
+  --accent-color: rgb(84, 249, 255);
+  --icon-height: 30px;
+  --bg-color: rgb(23, 41, 65);
+
+  font-family: Liter, sans-serif;
 }
 
 body {
-  background-color: rgb(23, 41, 65);
+  background-color: var(--bg-color);
   margin: 0;
   color: white;
 }
@@ -20,24 +28,6 @@ h1 {
   border-radius: 10px;
   padding: 1em;
   margin: 1em 0;
-}
-
-.plus-button {
-  position: fixed;
-  padding: 0;
-  bottom: 30px;
-  right: 25px;
-  width: 60px;
-  height: 60px;
-  background-color: var(--accent-color);
-  border-radius: 18px;
-  color: white;
-  border: none;
-  font-size: 35px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 form {
@@ -97,13 +87,6 @@ button:hover {
 
 label {
   margin: 0 0 0.2em;
-}
-
-input {
-  border: none;
-  padding: 1em;
-  background-color: rgb(230, 230, 230);
-  text-align: center;
 }
 
 select {
