@@ -35,21 +35,15 @@ form {
   flex-direction: column;
 }
 
-form * {
-  margin: 0 0 2em;
-}
-
 button {
-  background-color: var(--accent-color);
   border: none;
   border-radius: 0.5em;
-  margin-top: 1em;
-  color: white;
+  margin: 0;
   padding: 1em;
 }
 
-button:hover {
-  filter: brightness(95%);
+button:focus {
+  outline: none;
 }
 
 .notification {

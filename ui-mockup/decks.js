@@ -1,7 +1,8 @@
 // All UI elements we need for the app
 const form = document.querySelector('form');
 const dialog = document.getElementById('new-deck-dialog');
-const dialogCancel = document.getElementById('new-cancel-but')
+const dialogCancel = document.getElementById('new-cancel-but');
+const optionsCancel = document.getElementById('options-cancel-but');
 const plusButton = document.getElementById('create-deck');
 const deck = document.getElementById('deckName');
 const deckCardsContainer = document.getElementById('deck-cards');
@@ -92,6 +93,15 @@ function openOptions(deckName) {
 dialogCancel.addEventListener('click', (e) => {
   e.preventDefault();
   dialog.close();
+});
+
+dialogCancel.addEventListener('click', (e) => {
+  e.preventDefault();
+  dialog.close();
+});
+
+optionsCancel.addEventListener('click', (e) => {
+  optionsDialog.close();
 });
 
 plusButton.addEventListener('click', () => dialog.showModal());

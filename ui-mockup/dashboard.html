@@ -13,16 +13,26 @@
       --faded-text: rgb(129, 138, 153);
       --underline: rgb(86, 93, 105);
       --ui-bg-color: rgb(45, 62, 85);
+      --ui-hover: rgb(63, 81, 107);
+      --bg-hover: rgb(38, 57, 82);
       --plus-button-size: 60px;
+      --menu-button-hover-color: rgb(41, 67, 122);
       --main-padding: 15px;
+      --larger-padding: 25px;
+      --small-padding: 5px;
     }
 
     dialog button {
       background-color: transparent;
       color: var(--accent-color);
+      border-radius: 20px;
+    }
+    dialog button:hover {
+      background-color: var(--menu-button-hover-color);
     }
     dialog {
-      width: 80%;
+      padding: 0;
+      width: 88%;
       border-radius: 20px;
       background-color: var(--bg-color);
       border: none;
@@ -33,14 +43,16 @@
 
     form {
       display: flex;
+      padding: 0 var(--larger-padding);
     }
     dialog h2 {
       color: white;
+      padding: var(--larger-padding) var(--larger-padding) 0 var(--larger-padding);
       margin: 0;
     }
     form input {
       text-align: left;
-      margin: 1em 0;
+      margin-top: 1em;
       color: white;
       background-color: var(--ui-bg-color);
       border: none;
@@ -52,19 +64,24 @@
       box-shadow: none;
     }
 
+    form button {
+      margin: var(--larger-padding) var(--small-padding);
+    }
+
     menu {
       list-style-type: none;
       display: flex;
-      padding: 0;
-      margin-bottom: 0;
-      gap: 1em;
-      justify-content: flex-end;
+      flex-direction: column;
+      padding-left: 0;
+      margin: 0;
     }
     menu li {
       margin: 0;
     }
-    menu button {
-      margin: 0
+
+    form menu {
+      flex-direction: row;
+      justify-content: flex-end;
     }
 
     .plus-button {
@@ -98,6 +115,7 @@
       position: fixed;
       top: 0;
       left: 0;
+      z-index: 10;
       width: calc(100vw - 30px);
     }
 
@@ -128,13 +146,30 @@
 
     deck-card button {
       background-color: transparent;
-      padding: 5px;
+      padding: var(--small-padding);
       border-radius: 50%;
-      margin: 0;
       position: absolute;
-      right: calc(var(--main-padding) - 5px);
-      top: calc(var(--main-padding) - 5px);
+      right: calc(var(--main-padding) - var(--small-padding));
+      top: calc(var(--main-padding) - var(--small-padding));
       outline: none;
+    }
+
+    #options-cancel-but {
+      margin: var(--larger-padding);
+      width: fit-content;
+    }
+
+    .text-button {
+      color: white;
+      background-color: transparent;
+      border-radius: 0;
+      text-align: left;
+      width: 100%;
+      padding: var(--main-padding) var(--larger-padding);
+    }
+
+    .text-button:hover {
+      background-color: var(--bg-hover);
     }
 
     deck-card img {
@@ -142,11 +177,11 @@
     }
 
     deck-card button:hover {
-      background-color: rgb(63, 81, 107);
+      background-color: var(--ui-hover);
     }
 
     deck-card a:hover {
-      background-color: rgb(145, 162, 187);
+      background-color: var(--ui-hover);
     }
 
     deck-card p {
@@ -194,16 +229,15 @@
 
     <dialog id="deck-options-dialog">
 
-      <h2></h2>
-
-      <form method="POST" action="#">
+      <h2 style="margin-bottom: var(--larger-padding);"></h2>
         
-        <button id="view-but" type="button">View</button>
-        <button id="edit-but" type="button">Edit</button>
-        <button id="delete-but" type="button">Delete</button>
-        <button id="options-cancel-but" type="button">Cancel</button>
+      <menu id="deck-options">
+        <li><button id="view-but" class="text-button" type="button">View</button></li>
+        <li><button id="edit-but" class="text-button" type="button">Edit</button></li>
+        <li><button id="delete-but" class="text-button" type="button">Delete</button></li>
+        <li style="align-self: flex-end;"><button id="options-cancel-but" type="button">Cancel</button></li>
+      </menu>
 
-      </form>
     </dialog>
 
     <button class="plus-button" id="create-deck">+</button>
